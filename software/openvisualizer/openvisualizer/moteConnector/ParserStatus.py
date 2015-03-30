@@ -187,7 +187,7 @@ class ParserStatus(Parser.Parser):
                                     3,
                                     9,
                                     'NeighborsRow',
-                                    '<BBBBBBQQHbBBBBBHHB',
+                                    '<BBBBBBQQBHbBBBBBHHB',
                                     [
                                         'row',                       # B
                                         'used',                      # B
@@ -197,6 +197,7 @@ class ParserStatus(Parser.Parser):
                                         'addr_type',                 # B
                                         'addr_bodyH',                # Q
                                         'addr_bodyL',                # Q
+                                        'DODAGversion',              # B
                                         'DAGrank',                   # H
                                         'rssi',                      # b
                                         'numRx',                     # B
