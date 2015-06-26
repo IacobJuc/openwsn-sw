@@ -434,10 +434,35 @@ if __name__=="__main__":
     banner += ['enter \'q\' to exit']
     banner  = '\n'.join(banner)
     print banner
-
-    while True:
-        input = raw_input('> ')
-        if input=='q':
-            print 'bye bye.'
-            app.close()
-            os.kill(os.getpid(), signal.SIGTERM)
+    
+    class DummyShell(threading.Thread):
+        
+        def __init__(self,event):
+            self.__event = event
+            threading.Thread.__init__(self)
+        
+        def run(self):
+            while True:
+                input = raw_input('> ')
+                if input=='q':
+                    self.__event.set()
+                    break
+    
+    q_event = threading.Event()
+    dummy_shell = DummyShell(q_event)
+    dummy_shell.daemon = True
+    dummy_shell.start()
+    
+    other_event = threading.Event()
+    # # UNCOMMENT THESE LINES AND AFTER 50 SECONDS OPENVISUALIZER WILL BE CLOSED
+    # t = threading.Timer(50,other_event.set)
+    # t.start()
+    
+    while not q_event.is_set():
+        q_event.wait(30)
+        if other_event.is_set():
+            break
+    
+    print 'bye bye.'
+    app.close()
+    os.kill(os.getpid(), signal.SIGTERM)
