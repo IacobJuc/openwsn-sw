@@ -175,8 +175,11 @@ class StateScheduleRow(StateElem):
                                         notif.neighbor_bodyH,
                                         notif.neighbor_bodyL)
         self.data[0]['numRx']               = notif.numRx
+        self.data[0]['numRxColl']           = notif.numRxColl
+        self.data[0]['numRxForOthers']      = notif.numRxForOthers
         self.data[0]['numTx']               = notif.numTx
         self.data[0]['numTxACK']            = notif.numTxACK
+        self.data[0]['numTxMulticast']      = notif.numTxMulticast
         if 'lastUsedAsn' not in self.data[0]:
             self.data[0]['lastUsedAsn']     = typeAsn.typeAsn()
         self.data[0]['lastUsedAsn'].update(notif.lastUsedAsn_0_1,
@@ -467,8 +470,11 @@ class moteState(eventBusClient.eventBusClient):
                                                         'channelOffset',
                                                         'neighbor',
                                                         'numRx',
+                                                        'numRxColl',
+                                                        'numRxForOthers',
                                                         'numTx',
                                                         'numTxACK',
+                                                        'numTxMulticast',
                                                         'lastUsedAsn',
                                                     ]
                                                 )
