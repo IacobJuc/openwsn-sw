@@ -180,6 +180,12 @@ class StateScheduleRow(StateElem):
         self.data[0]['numTx']               = notif.numTx
         self.data[0]['numTxACK']            = notif.numTxACK
         self.data[0]['numTxMulticast']      = notif.numTxMulticast
+        temp_den = notif.numTx - notif.numTxMulticast + notif.numRx
+        if temp_den!=0:
+            alpha                           = float(notif.numTxACK + notif.numRx - notif.numRxColl)/float(temp_den)
+            self.data[0]['alpha']           = '{}'.format(alpha)
+        else:
+            self.data[0]['alpha']           = '?'
         if 'lastUsedAsn' not in self.data[0]:
             self.data[0]['lastUsedAsn']     = typeAsn.typeAsn()
         self.data[0]['lastUsedAsn'].update(notif.lastUsedAsn_0_1,
