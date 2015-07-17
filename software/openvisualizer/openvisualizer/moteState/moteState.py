@@ -17,6 +17,7 @@ import copy
 import time
 import threading
 import json
+import math
 
 from openvisualizer.moteConnector import ParserStatus
 from openvisualizer.eventBus      import eventBusClient
@@ -174,6 +175,7 @@ class StateScheduleRow(StateElem):
         self.data[0]['neighbor'].update(notif.neighbor_type,
                                         notif.neighbor_bodyH,
                                         notif.neighbor_bodyL)
+        self.data[0]['numEmpty']            = notif.numEmpty
         self.data[0]['numRx']               = notif.numRx
         self.data[0]['numRxColl']           = notif.numRxColl
         self.data[0]['numRxForOthers']      = notif.numRxForOthers
@@ -184,8 +186,14 @@ class StateScheduleRow(StateElem):
         if temp_den!=0:
             alpha                           = float(notif.numTxACK + notif.numRx - notif.numRxColl)/float(temp_den)
             self.data[0]['alpha']           = '{}'.format(alpha)
+            temp_collisions                 = notif.numRxColl + notif.numTx - notif.numTxACK - alpha * notif.numTxMulticast
+            if temp_collisions > (math.e - 2) * notif.numEmpty:
+                self.data[0]['congestion'] = 'TRUE'
+            else:
+                self.data[0]['congestion'] = 'FALSE'
         else:
             self.data[0]['alpha']           = '?'
+            self.data[0]['congestion']      = '?'
         if 'lastUsedAsn' not in self.data[0]:
             self.data[0]['lastUsedAsn']     = typeAsn.typeAsn()
         self.data[0]['lastUsedAsn'].update(notif.lastUsedAsn_0_1,
@@ -475,6 +483,7 @@ class moteState(eventBusClient.eventBusClient):
                                                         'shared',
                                                         'channelOffset',
                                                         'neighbor',
+                                                        'numEmpty',
                                                         'numRx',
                                                         'numRxColl',
                                                         'numRxForOthers',

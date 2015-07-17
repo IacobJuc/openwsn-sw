@@ -312,7 +312,7 @@
 									        
 									        // Slot Schedule responsive table
 									        if (hasJson) {
-									        	var tbl_body = "<table class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\"><thead><tr><th>Offset</th><th>Type</th><th>Shared?</th><th>Channel</th><th>Nbr Type</th><th>RX</th><th>RX COLLISION</th><th>RX FOR OTHERS</th><th>TX</th><th>TX ACK</th><th>TX MULTICAST</th><th>ALPHA</th><th>Last ASN</th></tr></thead><tbody>";
+									        	var tbl_body = "<table class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\"><thead><tr><th>Offset</th><th>Type</th><th>Shared?</th><th>Channel</th><th>Nbr Type</th><th>EMPTY SLOTS</th><th>RX</th><th>RX COLLISION</th><th>RX FOR OTHERS</th><th>TX</th><th>TX ACK</th><th>TX MULTICAST</th><th>ALPHA</th><th>CONGESTION</th><th>Last ASN</th></tr></thead><tbody>";
 
 										        $.each(schedJson, function() {
 											        var tbl_row = "<td>" + this['slotOffset'] + "</td>";
@@ -320,6 +320,7 @@
 											        tbl_row += "<td>" + this['shared'] + "</td>";
 											        tbl_row += "<td>" + this['channelOffset'] + "</td>";
 											        tbl_row += "<td>" + this['neighbor'] + "</td>";
+											        tbl_row += "<td>" + this['numEmpty'] + "</td>";
 											        tbl_row += "<td>" + this['numRx'] + "</td>";
 											        tbl_row += "<td>" + this['numRxColl'] + "</td>";
 											        tbl_row += "<td>" + this['numRxForOthers'] + "</td>";
@@ -327,6 +328,7 @@
 											        tbl_row += "<td>" + this['numTxACK'] + "</td>";
 											        tbl_row += "<td>" + this['numTxMulticast'] + "</td>";
 											        tbl_row += "<td>" + this['alpha'] + "</td>";
+											        tbl_row += "<td>" + this['congestion'] + "</td>";
 											        tbl_row += "<td>" + this['lastUsedAsn'] + "</td>";
 											        tbl_body += "<tr class=\"odd gradeX\">" + tbl_row + "</tr>";
 												});
